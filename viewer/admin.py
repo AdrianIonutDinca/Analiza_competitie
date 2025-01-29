@@ -13,6 +13,8 @@ admin.site.register(Produs)
 admin.site.register(Magazin)
 admin.site.register(SelectedData)
 
+admin.site.unregister(User)
+
 class OperatorProfileInline(admin.StackedInline):
     model = OperatorProfile
     can_delete = False
@@ -20,8 +22,13 @@ class OperatorProfileInline(admin.StackedInline):
 
 class CustomUserAdmin(UserAdmin):
     inlines = (OperatorProfileInline,)
+    def has_add_permission(self, request, obj=None):
+        """Împiedică adăugarea unui nou profil dacă utilizatorul are deja unul"""
+        if obj and hasattr(obj, 'operatorprofile'):
+            return False  # Nu permite adăugarea unui nou profil
+        return True
 
-admin.site.unregister(User)
+
 admin.site.register(User, CustomUserAdmin)
 
 @admin.register(IncentiveProduct)
