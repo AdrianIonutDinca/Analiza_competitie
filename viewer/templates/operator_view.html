@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Operator View</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(135deg, #f0f8ff, #e6f7ff);
+            color: #333;
+        }
+
+        .navbar {
+            display: flex;
+            justify-content: flex-end; /* Poziționează conținutul în dreapta */
+            align-items: center;
+            background-color: #007bff;
+            padding: 10px 20px;
+            color: white;
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        .navbar a {
+            color: white;
+            text-decoration: none;
+            font-size: 16px;
+        }
+
+        .navbar a:hover {
+            text-decoration: underline;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 30px auto;
+            background: white;
+            padding: 20px 30px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+        }
+
+        h1 {
+            text-align: center;
+            color: #007bff;
+            margin-bottom: 20px;
+        }
+
+        p {
+            margin-bottom: 20px;
+            font-size: 16px;
+            color: #555;
+        }
+
+        .responsibility {
+            background-color: #f8f9fa;
+            padding: 15px;
+            margin-bottom: 20px;
+            border-left: 5px solid #007bff;
+            border-radius: 5px;
+        }
+
+        .responsibility h2 {
+            margin-top: 0;
+            color: #007bff;
+            font-size: 18px;
+        }
+
+        .responsibility p {
+            margin: 5px 0;
+            color: #555;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+
+        table, th, td {
+            border: 1px solid #ddd;
+        }
+
+        th, td {
+            text-align: center;
+            padding: 12px;
+        }
+
+        th {
+            background-color: #007bff;
+            color: white;
+        }
+
+        td input[type="number"] {
+            width: 80%;
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        button {
+            display: block;
+            margin: 0 auto;
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <!-- Bara de navigare -->
+    <div class="navbar">
+        <a href="/accounts/logout/">Logout</a>
+    </div>
+
+    <!-- Conținutul principal -->
+    <div class="container">
+        <h1>Introduceți Prețurile</h1>
+        <p><strong>Județ:</strong> {{ user_judet }}</p> <!-- Afișează județul utilizatorului -->
+
+        <div class="responsibility">
+            <h2>Informații Importante</h2>
+            <p>Ca operator, este esențial să introduceți prețurile corect, deoarece aceste informații sunt critice pentru clienți.</p>
+            <p>Vă rugăm să respectați următoarele reguli:</p>
+            <ul>
+                <li>Introduceți prețurile cu TVA inclus.</li>
+                <li>Prețurile trebuie să fie pentru o singură bucată.</li>
+                <li>Verificați corectitudinea datelor înainte de a le salva.</li>
+            </ul>
+        </div>
+
+        <form method="POST">
+            {% csrf_token %}
+            <table>
+                <thead>
+                    <tr>
+                        <th>Product</th>
+                        <th>Store</th>
+                        <th>User</th>
+                        <th>Date Added</th>
+                        <th>Price</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for entry in data %}
+                    <tr>
+                        <td>{{ entry.product.denumire }}</td>
+                        <td>{{ entry.store.magazin }}</td>
+                        <td>{{ entry.user.username }}</td>
+                        <td>{{ entry.date_added }}</td>
+                        <td>
+                            <input type="number" name="price_{{ entry.id }}" step="0.01" placeholder="Introduceți prețul">
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            <button type="submit">Salvați Prețurile</button>
+        </form>
+    </div>
+</body>
+</html>

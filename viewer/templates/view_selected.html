@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>View Selected Data</title>
+</head>
+<body>
+    <h1>Selected Products and Stores</h1>
+    <table border="1">
+        <tr>
+            <th>User</th>
+            <th>Product</th>
+            <th>Price</th>
+            <th>Store</th>
+            <th>Date Added</th>
+        </tr>
+        {% for entry in data %}
+        <tr>
+            <td>{{ entry.user }}</td>
+            <td>{{ entry.product.denumire }}</td>
+            <td>{% if entry.price %}{{ entry.price }}{% else %}N/A{% endif %}</td>
+            <td>{{ entry.store.magazin }}</td>
+            <td>{{ entry.date_added }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+</body>
+</html>

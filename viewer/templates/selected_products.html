@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Selected Products and Stores</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background-color: #f8f8f8;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .header, .footer {
+            background-color: #007bff;
+            color: white;
+            text-align: center;
+            padding: 10px 0;
+            width: 100%;
+            box-sizing: border-box;
+            font-size: 18px;
+            font-weight: bold;
+        }
+
+        .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-top: 20px;
+            background-color: white;
+            padding: 40px;
+            border-radius: 8px;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+            width: 80%;
+        }
+
+        .column {
+            flex: 1;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .column h2 {
+            margin-top: 0;
+            font-size: 20px;
+        }
+
+        .column div {
+            margin-bottom: 10px;
+            font-size: 16px;
+        }
+
+        .centered-info {
+            text-align: center;
+            margin-top: 20px;
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+            width: 80%;
+        }
+
+        .centered-info ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        .centered-info ul li {
+            margin: 10px 0;
+            font-size: 16px;
+        }
+
+        button {
+            margin-top: 20px;
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <!-- Banda albastră sus -->
+    <div class="header">
+        Selected Products and Stores
+    </div>
+
+    <!-- Clasificare produse și magazine -->
+    <div class="container">
+        <div class="column">
+            <h2>Products</h2>
+            {% for product in products %}
+                <div>{{ product.denumire }}</div>
+            {% endfor %}
+        </div>
+        <div class="column">
+            <h2>Stores</h2>
+            {% for store in stores %}
+                <div>{{ store.magazin }}</div>
+            {% endfor %}
+        </div>
+    </div>
+
+    <!-- Banda albastră jos -->
+    <div class="footer">
+        Confirma ca acestea sunt produsele și magazinele
+    </div>
+
+    <!-- Form pentru combinații de produse și magazine -->
+    <div class="centered-info">
+        <form method="POST" action="/save_selected/">
+            {% csrf_token %}
+            <ul>
+                {% for product in products %}
+                    {% for store in stores %}
+                        <li>
+                            <input type="checkbox" name="selected_combinations" value="{{ product.id }}-{{ store.id }}">
+                            {{ product.denumire }} - {{ store.magazin }}
+                        </li>
+                    {% endfor %}
+                {% endfor %}
+            </ul>
+            <button type="submit">Save to Database</button>
+        </form>
+    </div>
+</body>
+</html>

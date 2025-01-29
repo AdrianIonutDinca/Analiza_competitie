@@ -1,0 +1,17 @@
+<!-- purchase_history.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Istoric Achizitii</title>
+</head>
+<body>
+    <h1>Istoric Achizitii</h1>
+    <ul>
+        {% for entry in history %}
+        <li>{{ entry.product.name }} - {{ entry.purchase_date }}</li>
+        {% endfor %}
+    </ul>
+</body>
+</html>

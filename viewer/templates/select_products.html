@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Select Products and Stores</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background-color: #f8f8f8;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .header {
+            background-color: #007bff;
+            color: white;
+            text-align: center;
+            padding: 10px 0;
+            width: 100%;
+            box-sizing: border-box;
+            font-size: 18px;
+        }
+
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: #007bff;
+            padding: 10px 20px;
+            color: white;
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        .navbar-center {
+            display: flex;
+            gap: 20px;
+        }
+
+        .navbar-right {
+            margin-left: auto;
+        }
+
+        .nav-link {
+            color: white;
+            text-decoration: none;
+            font-size: 16px;
+        }
+
+        .nav-link:hover {
+            text-decoration: underline;
+        }
+
+        .container {
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            margin-top: 20px;
+            gap: 350px; /* Spațiu mai mare între coloane */
+            background-color: white;
+            padding: 40px; /* Mărește dimensiunea backgroundului alb */
+            border-radius: 8px;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+            width: 95%; /* Lățește fundalul alb */
+        }
+
+        .column {
+            padding: 20px;
+        }
+
+        .column h2 {
+            margin-top: 0;
+            text-align: center;
+        }
+
+        .column div {
+            margin-bottom: 10px;
+            white-space: nowrap; /* Forțează produsele să fie pe un singur rând */
+        }
+
+        label {
+            margin-left: 5px; /* Spațiu între checkbox și text */
+        }
+
+        button {
+            margin-top: 20px;
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        .submit-container {
+            text-align: center;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="navbar">
+        <div class="navbar-center">
+            <a href="/view-results/" class="nav-link">Mergi spre meniul de rapoarte</a>
+        </div>
+        <div class="navbar-right">
+            <a href="/accounts/logout/" class="nav-link">Logout</a>
+        </div>
+    </div>
+
+    <div class="header">
+        Selectează produsele și magazinele unde vrei să faci analiza
+    </div>
+
+    <form method="POST" action="{% url 'selected_products' %}">
+        {% csrf_token %}
+        <div class="container">
+            <div class="column">
+                <h2>Products</h2>
+                {% for product in products %}
+                    <div>
+                        <input type="checkbox" name="products" value="{{ product.id }}" id="product-{{ product.id }}">
+                        <label for="product-{{ product.id }}">{{ product.denumire }}</label>
+                    </div>
+                {% endfor %}
+            </div>
+            <div class="column">
+                <h2>Stores</h2>
+                {% for store in stores %}
+                    <div>
+                        <input type="checkbox" name="stores" value="{{ store.id }}" id="store-{{ store.id }}">
+                        <label for="store-{{ store.id }}">{{ store.magazin }}</label>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+        <div class="submit-container">
+            <button type="submit">Submit Selection</button>
+        </div>
+    </form>
+</body>
+</html>
