@@ -11,7 +11,7 @@ from .models import IncentiveProduct
 admin.site.register(Categ)
 admin.site.register(Produs)
 admin.site.register(Magazin)
-admin.site.register(SelectedData)
+# admin.site.register(SelectedData)
 
 admin.site.unregister(User)
 
